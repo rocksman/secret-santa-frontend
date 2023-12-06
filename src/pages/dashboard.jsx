@@ -4,7 +4,7 @@ import MatchImage from "../assets/match.svg";
 import { useDispatch, useSelector } from "react-redux";
 import { Drawer } from "flowbite";
 import { db } from '../config/firebase';
-import { doc, getDoc } from 'firebase/firestore';
+import { doc, getDoc, collection, getDocs } from 'firebase/firestore';
 import { login } from '../redux/features/auth.slice';
 
 const Dashboard = () => {
@@ -13,6 +13,7 @@ const Dashboard = () => {
     const { userInfo } = useSelector(state => state.auth);
 
     const [matchInfo, setMatchInfo] = useState({});
+    const [participants, setParticipants] = useState([]);
 
     useEffect(() => {
         (async () => {
@@ -22,6 +23,14 @@ const Dashboard = () => {
                 const user = userSnap.data();
                 dispatch(login(user));
             }
+            let _participants = [];
+            const querySnapshot = await getDocs(collection(db, "users"));
+            querySnapshot.forEach((doc) => {
+                // doc.data() is never undefined for query doc snapshots
+                console.log(doc.id, " => ", doc.data());
+                _participants.push(doc.data());
+                setParticipants(_participants);
+            });
         })();
     }, [])
 
@@ -64,7 +73,7 @@ const Dashboard = () => {
         <div className="bg-background w-screen h-screen flex items-start justify-center">
             <div className="w-[1200px] my-10 xl:my-20">
                 <div className="mb-8 flex flex-row space-x-2 xl:space-x-4">
-                    <div className="border-2 border-primary p-1 rounded-full h-12 xl:h-12 w-12 xl:w-16">
+                    <div className="border-2 border-primary p-1 rounded-full h-12 xl:h-16 w-12 xl:w-16">
                         <img src={userInfo.user.photoURL} className="rounded-full w-16" />
                     </div>
                     <div>
@@ -72,7 +81,7 @@ const Dashboard = () => {
                         <p className="font-sans text-gray-dark text-sm xl:text-md">Not the right account? <button className="text-primary bg-transparent border-0 p-0">Sign out</button></p>
                     </div>
                 </div>
-                <div className="flex flex-col items-center justify-end min-h-[400px] xl:min-h-[600px]">
+                <div className="flex flex-col items-center justify-end min-h-[400px]">
                     {
                         userInfo?.matchEmail ?
                             (
@@ -102,54 +111,20 @@ const Dashboard = () => {
             <div ref={drawerRef} id="drawer-right-example" class="fixed top-0 right-0 z-40 h-screen p-4 overflow-y-auto transition-transform translate-x-full bg-white w-80 dark:bg-gray-800" tabindex="-1" aria-labelledby="drawer-right-label">
                 <div className='mb-8'>
                     <h5 id="drawer-right-label" class="font-sans text-black text-xl inline-flex items-center text-base font-semibold">Participants</h5>
-                    <p className='text-primary font-sans text-sm'>These bitches are actually participating</p>
+                    <p className='text-gray-light font-sans text-sm'>These bitches are actually participating</p>
                 </div>
                 <div className='space-y-8'>
-                    <div className="flex flex-row space-x-3 xl:space-x-4">
-                        <div className="border-2 border-primary p-0.5 rounded-full h-10 xl:h-12 w-10 xl:w-12">
-                            <img src={userInfo.photoURL} className="rounded-full w-16" />
+                    {participants.map((participant, index) => (
+                        <div className="flex flex-row space-x-3 xl:space-x-4" key={index}>
+                            <div className="border-2 border-primary p-0.5 rounded-full h-10 xl:h-12 w-10 xl:w-12">
+                                <img src={participant?.user?.photoURL} className="rounded-full w-16" />
+                            </div>
+                            <div>
+                                <h3 className="font-sans font-bold text-md text-black p-0 mb-0">{participant?.user?.displayName}</h3>
+                                <button className="text-primary text-xs font-normal bg-transparent border-0 p-0">Tell them you miss them</button>
+                            </div>
                         </div>
-                        <div>
-                            <h3 className="font-sans font-bold text-md xl:text-lg text-black p-0 mb-0 xl:mb-1">{userInfo.displayName}</h3>
-                            <button className="text-gray-light hover:text-primary text-xs font-normal bg-transparent border-0 p-0">Tell them you miss them</button>
-                        </div>
-                    </div>
-                    <div className="flex flex-row space-x-3 xl:space-x-4">
-                        <div className="border-2 border-primary p-0.5 rounded-full h-10 xl:h-12 w-10 xl:w-12">
-                            <img src={userInfo.photoURL} className="rounded-full w-16" />
-                        </div>
-                        <div>
-                            <h3 className="font-sans font-bold text-md xl:text-lg text-black p-0 mb-0 xl:mb-1">{userInfo.displayName}</h3>
-                            <button className="text-gray-light hover:text-primary text-xs font-normal bg-transparent border-0 p-0">Tell them you miss them</button>
-                        </div>
-                    </div>
-                    <div className="flex flex-row space-x-3 xl:space-x-4">
-                        <div className="border-2 border-primary p-0.5 rounded-full h-10 xl:h-12 w-10 xl:w-12">
-                            <img src={userInfo.photoURL} className="rounded-full w-16" />
-                        </div>
-                        <div>
-                            <h3 className="font-sans font-bold text-md xl:text-lg text-black p-0 mb-0 xl:mb-1">{userInfo.displayName}</h3>
-                            <button className="text-gray-light hover:text-primary text-xs font-normal bg-transparent border-0 p-0">Tell them you miss them</button>
-                        </div>
-                    </div>
-                    <div className="flex flex-row space-x-3 xl:space-x-4">
-                        <div className="border-2 border-primary p-0.5 rounded-full h-10 xl:h-12 w-10 xl:w-12">
-                            <img src={userInfo.photoURL} className="rounded-full w-16" />
-                        </div>
-                        <div>
-                            <h3 className="font-sans font-bold text-md xl:text-lg text-black p-0 mb-0 xl:mb-1">{userInfo.displayName}</h3>
-                            <button className="text-gray-light hover:text-primary text-xs font-normal bg-transparent border-0 p-0">Tell them you miss them</button>
-                        </div>
-                    </div>
-                    <div className="flex flex-row space-x-3 xl:space-x-4">
-                        <div className="border-2 border-primary p-0.5 rounded-full h-10 xl:h-12 w-10 xl:w-12">
-                            <img src={userInfo.photoURL} className="rounded-full w-16" />
-                        </div>
-                        <div>
-                            <h3 className="font-sans font-bold text-md xl:text-lg text-black p-0 mb-0 xl:mb-1">{userInfo.displayName}</h3>
-                            <button className="text-gray-light hover:text-primary text-xs font-normal bg-transparent border-0 p-0">Tell them you miss them</button>
-                        </div>
-                    </div>
+                    ))}
                 </div>
             </div>
         </div>

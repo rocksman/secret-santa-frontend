@@ -40,7 +40,7 @@ const Address = () => {
             <div className="w-[1200px] py-10 xl:py-20 xl:py-20 flex flex-row justify-between items-start">
                 <div className="flex flex-col justify-between w-2/5">
                     <div className="mb-8 flex flex-row space-x-2 xl:space-x-4">
-                        <div className="border-2 border-primary p-1 rounded-full h-12 xl:h-12 w-12 xl:w-16">
+                        <div className="border-2 border-primary p-1 rounded-full h-12 xl:h-16 w-12 xl:w-16">
                             <img src={userInfo.user.photoURL} className="rounded-full w-16" />
                         </div>
                         <div>
@@ -48,7 +48,7 @@ const Address = () => {
                             <p className="font-sans text-gray-dark text-sm xl:text-md">Not the right account? <button className="text-primary bg-transparent border-0 p-0">Sign out</button></p>
                         </div>
                     </div>
-                    <h1 className="font-sans text-xl xl:text-3xl text-black font-medium mb-4 xl:mb-8">You know the drill</h1>
+                    <h1 className="font-sans text-xl xl:text-2xl text-black font-medium mb-4 xl:mb-8">You know the drill</h1>
                     <form onSubmit={handleSubmit(onSubmit)} className="w-full">
                         <Controller
                             name="addressLine1"
