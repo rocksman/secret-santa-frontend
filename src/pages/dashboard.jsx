@@ -36,8 +36,8 @@ const Dashboard = () => {
 
     useEffect(() => {
         (async () => {
-            if (userInfo?.matchEmail) {
-                const matchRef = doc(db, "users", userInfo.matchEmail);
+            if (userInfo?.matchedEmail) {
+                const matchRef = doc(db, "users", userInfo.matchedEmail);
                 const matchSnap = await getDoc(matchRef);
                 const match = matchSnap.data();
                 console.log(match)
@@ -71,7 +71,7 @@ const Dashboard = () => {
 
     return (
         <div className="bg-background w-screen h-screen flex items-start justify-center">
-            <div className="w-[1200px] my-10 xl:my-20">
+            <div className="w-[90%] md:w-[1200px] my-10 xl:my-20">
                 <div className="mb-8 flex flex-row space-x-2 xl:space-x-4">
                     <div className="border-2 border-primary p-1 rounded-full h-12 xl:h-16 w-12 xl:w-16">
                         <img src={userInfo.user.photoURL} className="rounded-full w-16" />
@@ -83,7 +83,7 @@ const Dashboard = () => {
                 </div>
                 <div className="flex flex-col items-center justify-end min-h-[400px]">
                     {
-                        userInfo?.matchEmail ?
+                        userInfo?.matchedEmail ?
                             (
                                 <>
                                     <div className="flex flex-col items-center justify-center">

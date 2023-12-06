@@ -36,9 +36,9 @@ const Address = () => {
     };
 
     return (
-        <div className="bg-background min-h-screen w-screen flex justify-center bg-address bg-right-top bg-no-repeat">
-            <div className="w-[1200px] py-10 xl:py-20 xl:py-20 flex flex-row justify-between items-start">
-                <div className="flex flex-col justify-between w-2/5">
+        <div className="bg-background min-h-screen w-screen flex justify-center bg-address bg-right-top bg-[length:100px_100px] md:bg-auto bg-no-repeat">
+            <div className="w-[90%] md:w-[1200px] py-10 xl:py-20 xl:py-20 flex flex-row justify-between items-start">
+                <div className="flex flex-col justify-between w-full md:w-2/5">
                     <div className="mb-8 flex flex-row space-x-2 xl:space-x-4">
                         <div className="border-2 border-primary p-1 rounded-full h-12 xl:h-16 w-12 xl:w-16">
                             <img src={userInfo.user.photoURL} className="rounded-full w-16" />
@@ -74,7 +74,7 @@ const Address = () => {
                             }
                         />
                         <span>{formState.errors.addressLine2?.message}</span>
-                        <div className="flex flex-row justify-between space-x-4 flex-wrap">
+                        <div className="flex flex-row justify-between space-x-2 md:space-x-4 flex-row">
                             <Controller
                                 name="pincode"
                                 control={control}
@@ -86,7 +86,7 @@ const Address = () => {
                                     />
                                 }
                             />
-                            <span>{formState.errors.pincode?.message}</span>
+                            {/* <span>{formState.errors.pincode?.message}</span> */}
                             <Controller
                                 name="city"
                                 control={control}
@@ -98,9 +98,9 @@ const Address = () => {
                                     />
                                 }
                             />
-                            <span>{formState.errors.city?.message}</span>
+                            {/* <span>{formState.errors.city?.message}</span> */}
                         </div>
-                        <div className="flex flex-row justify-between space-x-4 flex-wrap">
+                        <div className="flex flex-row justify-between space-x-2 md:space-x-4 flex-row">
                             <Controller
                                 name="state"
                                 control={control}
@@ -112,7 +112,7 @@ const Address = () => {
                                     />
                                 }
                             />
-                            <span>{formState.errors.state?.message}</span>
+                            {/* <span>{formState.errors.state?.message}</span> */}
                             <Controller
                                 name="country"
                                 control={control}
@@ -124,7 +124,7 @@ const Address = () => {
                                     />
                                 }
                             />
-                            <span>{formState.errors.country?.message}</span>
+                            {/* <span>{formState.errors.country?.message}</span> */}
                         </div>
                         <Controller
                             name="additionalInfo"

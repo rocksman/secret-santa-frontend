@@ -71,8 +71,8 @@ const Home = () => {
     }
     return (
         <div className="bg-background w-screen h-screen flex items-center justify-center">
-            <div className="w-[1200px] flex flex-row justify-between items-start">
-                <img src={HomeImg} className="w-[480px]" />
+            <div className="w-[90%] md:w-[1200px] flex flex-col md:flex-row justify-center md:justify-between items-center md:items-start">
+                <img src={HomeImg} className="w-[240px] md:w-[480px]" />
                 <div className="flex flex-col justify-between items-center">
                     <img src={HomeText} className="w-[520px]" />
                     <p className="font-sans text-xl text-black font-medium mb-8">Please let's all play fair this time yeah</p>
