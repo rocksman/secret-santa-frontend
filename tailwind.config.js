@@ -10,7 +10,7 @@ export default {
       sm: '480px',
       md: '768px',
       lg: '976px',
-      xl: '1440px',
+      xl: '1366px',
     },
     colors: {
       'background': '#fcecd4',
@@ -24,8 +24,7 @@ export default {
       'black': '#000000',
       'white': '#ffffff',
       'gray-dark': '#273444',
-      'gray': '#8492a6',
-      'gray-light': '#d3dce6',
+      'gray-light': '#aaaaaa',
       'transparent': 'transparent'
     },
     fontFamily: {
@@ -33,6 +32,10 @@ export default {
       serif: ['Merriweather', 'serif'],
     },
     extend: {
+      backgroundImage: {
+        'address': "url('./src/assets/address-tree.svg')",
+        'match': "url('./src/assets/match.svg')"
+      },
       spacing: {
         '128': '32rem',
         '144': '36rem',

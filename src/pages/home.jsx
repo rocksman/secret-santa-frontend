@@ -2,15 +2,51 @@ import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { useNavigate } from "react-router";
 import HomeImg from '../assets/home.svg';
 import HomeText from '../assets/home-text.svg';
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { collection, where, getDocs, query, doc, getDoc } from "firebase/firestore";
 import { login } from "../redux/features/auth.slice";
+import { useEffect, useState } from "react";
+import { db } from "../config/firebase"
 
 const provider = new GoogleAuthProvider();
 const auth = getAuth();
 
 const Home = () => {
     const navigation = useNavigate();
+    const { userInfo } = useSelector((state) => state.auth)
     const dispatch = useDispatch();
+    const usersRef = collection(db, "users");
+
+    const [userLogin, setUserLogin] = useState();
+
+    useEffect(() => {
+        (async () => {
+            if (userLogin) {
+                try {
+                    const userRef = doc(db, "users", userLogin.email);
+                    const docSnap = await getDoc(userRef);
+                    if (docSnap.exists()) {
+                        const user = docSnap.data();
+                        dispatch(login(user))
+                        if (user?.address)
+                            navigation('/dashboard')
+                        else
+                            navigation('/address');
+                    } else {
+                        // docSnap.data() will be undefined in this case
+                        console.log("No such document!");
+                        dispatch(login({ user: { displayName: userLogin.displayName, email: userLogin.email, photoURL: userLogin.photoURL } }))
+                        navigation('/address');
+                    }
+                }
+                catch (err) {
+                    console.log("No such document!");
+                    dispatch(login({ user: { displayName: userLogin.displayName, email: userLogin.email, photoURL: userLogin.photoURL } }))
+                    navigation('/address');
+                }
+            }
+        })();
+    }, [userLogin])
 
     const clickHandler = () => {
         signInWithPopup(auth, provider)
@@ -20,9 +56,7 @@ const Home = () => {
                 const token = credential.accessToken;
                 // The signed-in user info.
                 const user = result.user;
-                console.log(user);
-                dispatch(login(user))
-                navigation('/address');
+                setUserLogin(user);
 
             }).catch((error) => {
                 // Handle Errors here.
@@ -38,11 +72,11 @@ const Home = () => {
     return (
         <div className="bg-background w-screen h-screen flex items-center justify-center">
             <div className="w-[1200px] flex flex-row justify-between items-start">
-                <img src={HomeImg} className="w-[480px]"/>
+                <img src={HomeImg} className="w-[480px]" />
                 <div className="flex flex-col justify-between items-center">
-                <img src={HomeText} className="w-[520px]"/>
-                <p className="font-sans text-xl text-black font-medium mb-8">Please let's all play fair this time yeah</p>
-                <button type="button" className="font-sans font-bold bg-white text-black px-8" onClick={clickHandler}>Sign In</button>
+                    <img src={HomeText} className="w-[520px]" />
+                    <p className="font-sans text-xl text-black font-medium mb-8">Please let's all play fair this time yeah</p>
+                    <button type="button" className="font-sans font-bold bg-white text-black px-8" onClick={clickHandler}>Sign In</button>
                 </div>
             </div>
         </div>
