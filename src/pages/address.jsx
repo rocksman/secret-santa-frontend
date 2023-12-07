@@ -9,6 +9,7 @@ import { getAuth, signOut } from "firebase/auth";
 import { db } from "../config/firebase";
 import { useNavigate } from "react-router-dom";
 import { logout } from "../redux/features/auth.slice";
+import { useState } from "react";
 
 const schema = yup.object().shape({
     addressLine1: yup.string().required("Address Line 1 is required"),
@@ -26,6 +27,13 @@ const Address = () => {
     const { userInfo } = useSelector(state => state.auth);
     const navigation = useNavigate();
     const dispatch = useDispatch();
+
+    const [showToast, setShowToast] = useState(false);
+
+    useEffect(() => {
+        if(showToast)
+            setTimeout(() => setShowToast(false), 3000);
+    }, [showToast])
 
     const signout = async () => {
         try {
@@ -50,7 +58,8 @@ const Address = () => {
     const onSubmit = async (data) => {
         const userRef = doc(db, 'users', userInfo.user.email)
         await setDoc(userRef, { user: userInfo.user, address: data }, { merge: true })
-        console.log('Data successfully saved to Firestore!', userRef.id);
+        setShowToast(true);
+        navigation('/dashboard');
     };
 
     return (
@@ -160,6 +169,16 @@ const Address = () => {
                     </form>
                 </div>
             </div>
+            {showToast &&
+                <div className='fixed top-10 right-10'>
+                    <div id="toast-simple" class="flex items-center w-full max-w-xs p-4 space-x-4 rtl:space-x-reverse text-gray-500 bg-white divide-x rtl:divide-x-reverse divide-gray-200 rounded-lg shadow dark:text-gray-400 dark:divide-gray-700 space-x dark:bg-gray-800" role="alert">
+                        <svg class="w-5 h-5 text-blue-600 dark:text-blue-500 rotate-45" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 20">
+                            <path stroke="#fd510c" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m9 17 8 2L9 1 1 19l8-2Zm0 0V9" />
+                        </svg>
+                        <div class="ps-4 text-sm font-normal">Registered successfully.</div>
+                    </div>
+                </div>
+            }
         </div>
     )
 }
