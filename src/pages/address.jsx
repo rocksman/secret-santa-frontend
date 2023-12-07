@@ -1,11 +1,14 @@
 import TextArea from "../components/text-area";
 import TextInput from "../components/text-input";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { collection, addDoc, doc, setDoc } from "firebase/firestore"; 
+import { doc, setDoc } from "firebase/firestore";
+import { getAuth, signOut } from "firebase/auth";
 import { db } from "../config/firebase";
+import { useNavigate } from "react-router-dom";
+import { logout } from "../redux/features/auth.slice";
 
 const schema = yup.object().shape({
     addressLine1: yup.string().required("Address Line 1 is required"),
@@ -17,8 +20,24 @@ const schema = yup.object().shape({
     additionalInfo: yup.string(),
 });
 
+const auth = getAuth();
+
 const Address = () => {
     const { userInfo } = useSelector(state => state.auth);
+    const navigation = useNavigate();
+    const dispatch = useDispatch();
+
+    const signout = async () => {
+        try {
+            await signOut(auth)
+            dispatch(logout());
+            navigation('/');
+        }
+        catch (error) {
+            // An error happened.
+            console.log(error)
+        };
+    }
     const {
         register,
         handleSubmit,
@@ -29,9 +48,8 @@ const Address = () => {
     })
 
     const onSubmit = async (data) => {
-        console.log(data);
         const userRef = doc(db, 'users', userInfo.user.email)
-        await setDoc(userRef, {user: userInfo.user, address: data}, { merge: true })
+        await setDoc(userRef, { user: userInfo.user, address: data }, { merge: true })
         console.log('Data successfully saved to Firestore!', userRef.id);
     };
 
@@ -45,7 +63,7 @@ const Address = () => {
                         </div>
                         <div>
                             <h3 className="font-sans font-bold text-xl xl:text-2xl text-black xl:mb-1">Welcome back {userInfo.user.displayName?.split(' ')[0]}!</h3>
-                            <p className="font-sans text-gray-dark text-sm xl:text-md">Not the right account? <button className="text-primary bg-transparent border-0 p-0">Sign out</button></p>
+                            <p className="font-sans text-gray-dark text-sm xl:text-md">Not the right account? <button className="text-primary bg-transparent border-0 p-0" onClick={signout}>Sign out</button></p>
                         </div>
                     </div>
                     <h1 className="font-sans text-xl xl:text-2xl text-black font-medium mb-4 xl:mb-8">You know the drill</h1>

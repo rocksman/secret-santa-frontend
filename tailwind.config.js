@@ -23,6 +23,7 @@ export default {
       'yellow': '#ffc82c',
       'black': '#000000',
       'white': '#ffffff',
+      'light-gray': '#eeeeee',
       'gray-dark': '#273444',
       'gray-light': '#aaaaaa',
       'transparent': 'transparent'

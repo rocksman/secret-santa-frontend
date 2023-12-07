@@ -9,6 +9,7 @@ import Address from './pages/address';
 import Dashboard from './pages/dashboard';
 import Home from './pages/home';
 import { store } from './redux/store';
+import ProtectedRoute from './util/protected-route';
 
 function App() {
 
@@ -19,11 +20,11 @@ function App() {
     },
     {
       path: "/address",
-      element: <Address />,
+      element: <ProtectedRoute element={<Address />} />,
     },
     {
       path: "/dashboard",
-      element: <Dashboard />,
+      element: <ProtectedRoute element={<Dashboard />} />,
     },
   ]);
   return (
