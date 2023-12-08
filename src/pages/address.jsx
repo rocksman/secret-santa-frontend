@@ -9,7 +9,7 @@ import { getAuth, signOut } from "firebase/auth";
 import { db } from "../config/firebase";
 import { useNavigate } from "react-router-dom";
 import { logout } from "../redux/features/auth.slice";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const schema = yup.object().shape({
     addressLine1: yup.string().required("Address Line 1 is required"),
