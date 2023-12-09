@@ -16,6 +16,7 @@ export default {
       'background': '#fcecd4',
       'primary': '#fd510c',
       'blue': '#1fb6ff',
+      'rose': '#cc0202',
       'purple': '#7e5bef',
       'pink': '#ff49db',
       'orange': '#ff7849',

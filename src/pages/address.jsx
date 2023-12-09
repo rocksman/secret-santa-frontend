@@ -84,11 +84,11 @@ const Address = () => {
                                 <TextInput
                                     label="Address Line 1"
                                     type="text"
+                                    error={formState.errors.addressLine1?.message}
                                     {...field}
                                 />
                             }
                         />
-                        <span>{formState.errors.addressLine1?.message}</span>
                         <Controller
                             name="addressLine2"
                             control={control}
@@ -100,8 +100,7 @@ const Address = () => {
                                 />
                             }
                         />
-                        <span>{formState.errors.addressLine2?.message}</span>
-                        <div className="flex flex-row justify-between space-x-2 md:space-x-4 flex-row">
+                        <div className="flex flex-row justify-between md:space-x-4 flex-wrap">
                             <Controller
                                 name="pincode"
                                 control={control}
@@ -109,11 +108,11 @@ const Address = () => {
                                     <TextInput
                                         label="Pincode"
                                         type="text"
+                                        error={formState.errors.pincode?.message}
                                         {...field}
                                     />
                                 }
                             />
-                            {/* <span>{formState.errors.pincode?.message}</span> */}
                             <Controller
                                 name="city"
                                 control={control}
@@ -121,13 +120,13 @@ const Address = () => {
                                     <TextInput
                                         label="City"
                                         type="text"
+                                        error={formState.errors.city?.message}
                                         {...field}
                                     />
                                 }
                             />
-                            {/* <span>{formState.errors.city?.message}</span> */}
                         </div>
-                        <div className="flex flex-row justify-between space-x-2 md:space-x-4 flex-row">
+                        <div className="flex flex-row justify-between md:space-x-4 flex-wrap">
                             <Controller
                                 name="state"
                                 control={control}
@@ -135,11 +134,11 @@ const Address = () => {
                                     <TextInput
                                         label="State"
                                         type="text"
+                                        error={formState.errors.state?.message}
                                         {...field}
                                     />
                                 }
                             />
-                            {/* <span>{formState.errors.state?.message}</span> */}
                             <Controller
                                 name="country"
                                 control={control}
@@ -147,11 +146,11 @@ const Address = () => {
                                     <TextInput
                                         label="Country"
                                         type="text"
+                                        error={formState.errors.country?.message}
                                         {...field}
                                     />
                                 }
                             />
-                            {/* <span>{formState.errors.country?.message}</span> */}
                         </div>
                         <Controller
                             name="additionalInfo"
@@ -163,7 +162,7 @@ const Address = () => {
                                     {...field}
                                 />}
                         />
-                        <button type="submit" className="font-sans font-bold bg-white text-black px-8 py-2">
+                        <button type="submit" className="font-sans font-bold bg-white text-black px-8 py-2 md:w-auto w-full">
                             Jump In
                         </button>
                     </form>

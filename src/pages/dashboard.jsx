@@ -61,7 +61,7 @@ const Dashboard = () => {
     }, [userInfo])
 
     useEffect(() => {
-        if(showToast)
+        if (showToast)
             setTimeout(() => setShowToast(false), 3000);
     }, [showToast])
 
@@ -85,7 +85,7 @@ const Dashboard = () => {
             },
         };
         const drawer = new Drawer(drawerRef.current, options);
-        if(value)
+        if (value)
             drawer.show();
         else
             drawer.hide();
@@ -137,7 +137,7 @@ const Dashboard = () => {
                                         <img src={MatchImage} className="absolute w-90 mb-8 rounded-full z-50 bottom-70" />
                                     </div>
                                     <div className='mt-20'>
-                                        <h3 className='font-sans text-black font-regular text-2xl'>You've been matched with <b>{matchInfo.user?.displayName}</b></h3>
+                                        <h3 className='font-sans text-black font-regular text-2xl text-center'>You've been matched with <b>{matchInfo.user?.displayName}</b></h3>
                                     </div>
                                     <div className="bg-white p-6 rounded-md shadow-md mt-8">
                                         <h4 className="text-xl text-black font-sans mb-4 text-center">Special note from <b>{matchInfo.user?.displayName}</b></h4>
@@ -163,7 +163,7 @@ const Dashboard = () => {
                                 <div className="flex flex-col items-center justify-center">
                                     <img src={DashboardDate} className="w-32 mb-8" />
                                     <h1 className="font-sans text-3xl text-black font-medium mb-8 text-center">You gotta wait for a while to find out...</h1>
-                                    <p className="font-sans text-2xl text-black mb-1 text-center">In the meantime, <span onClick={()=>toggleDrawer(true)} className="text-primary cursor-pointer">view</span> which of your friends are being naughty or nice</p>
+                                    <p className="font-sans text-2xl text-black mb-1 text-center">In the meantime, <span onClick={() => toggleDrawer(true)} className="text-primary cursor-pointer">view</span> which of your friends are being naughty or nice</p>
                                 </div>
                             )
                     }
@@ -181,15 +181,20 @@ const Dashboard = () => {
                                 <img src={participant?.user?.photoURL} className="rounded-full w-16" />
                             </div>
                             <div>
-                                <h3 className="font-sans font-bold text-md text-black p-0 mb-0">{participant?.user?.displayName}</h3>
-                                <button className="text-primary text-xs font-normal bg-transparent border-0 p-0" onClick={() => sendFriendMail(participant?.user)}>Tell them you miss them</button>
+                                <h3 className="font-sans font-bold text-md text-black p-0 mb-1">{participant?.user?.displayName}</h3>
+                                <button className="text-primary text-xs font-normal bg-transparent border-0 p-0 flex flex-row items-center" onClick={() => sendFriendMail(participant?.user)}>
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4 mr-1">
+                                        <path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
+                                    </svg>
+                                    Tell them you miss them
+                                </button>
                             </div>
                         </div>
                     ))}
                 </div>
             </div>
             {showToast &&
-                <div className='fixed top-10 right-10'>
+                <div className='fixed top-10 margin-auto md:right-10'>
                     <div id="toast-simple" class="flex items-center w-full max-w-xs p-4 space-x-4 rtl:space-x-reverse text-gray-500 bg-white divide-x rtl:divide-x-reverse divide-gray-200 rounded-lg shadow dark:text-gray-400 dark:divide-gray-700 space-x dark:bg-gray-800" role="alert">
                         <svg class="w-5 h-5 text-blue-600 dark:text-blue-500 rotate-45" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 20">
                             <path stroke="#fd510c" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m9 17 8 2L9 1 1 19l8-2Zm0 0V9" />
