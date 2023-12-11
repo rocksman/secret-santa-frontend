@@ -126,7 +126,7 @@ const Dashboard = () => {
                 </div>
                 <div className="flex flex-col items-center justify-end min-h-[400px]">
                     {
-                        userInfo?.isMatchConfirmed ?
+                        (userInfo?.isMatchConfirmed && matchInfo.user) ?
                             (
                                 <>
                                     <div className="flex flex-col items-center justify-center">
@@ -139,12 +139,14 @@ const Dashboard = () => {
                                     <div className='mt-20'>
                                         <h3 className='font-sans text-black font-regular text-2xl text-center'>You've been matched with <b>{matchInfo.user?.displayName}</b></h3>
                                     </div>
-                                    <div className="bg-white p-6 rounded-md shadow-md mt-8">
-                                        <h4 className="text-xl text-black font-sans mb-4 text-center">Special note from <b>{matchInfo.user?.displayName}</b></h4>
-                                        <p className="text-gray-dark font-sans w-full p-6 md:w-[400px] text-center bg-light-gray rounded-md">
-                                            {matchInfo.address?.additionalInfo}
-                                        </p>
-                                    </div>
+                                    {matchInfo.address?.additionalInfo &&
+                                        <div className="bg-white p-6 rounded-md shadow-md mt-8">
+                                            <h4 className="text-xl text-black font-sans mb-4 text-center">Special note from <b>{matchInfo.user?.displayName}</b></h4>
+                                            <p className="text-gray-dark font-sans w-full p-6 md:w-[400px] text-center bg-light-gray rounded-md">
+                                                {matchInfo.address?.additionalInfo}
+                                            </p>
+                                        </div>
+                                    }
                                     <div className="bg-white p-6 rounded-md shadow-md mt-4">
                                         <h4 className="text-xl text-black font-sans mb-4 text-center"><b>{matchInfo.user?.displayName}'s</b> Address</h4>
                                         <p className="text-gray-dark font-sans w-full md:w-[400px]">
